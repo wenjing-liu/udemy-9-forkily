@@ -121,7 +121,6 @@ const controlList = () => {
 /**
   * Like Controller
   */
- state.likes = new Likes()
 const controlLike = () => {
     // if (!state.likes) state.likes = new Likes()
     const currentID = state.recipe.id
@@ -161,6 +160,19 @@ const controlLike = () => {
          const val = parseFloat(e.target.value)
          state.list.updateCount(id, val)
      }
+ })
+
+ // Restore liked recipe on page load
+ window.addEventListener('load',() => {
+    state.likes = new Likes()
+    // restorage likes
+    state.likes.readStorage()
+
+    //toggle like menu button
+    likesView.toggleLikeMenu(state.likes.getNumLikes())
+
+    // render the exsting likes
+    state.likes.likes.forEach(like => likesView.renderLike(like))
  })
 
  // Handling recipe button clicks
